@@ -1,10 +1,11 @@
 import { CareFooter, CareHeader } from "@/components/CareHeader";
+import { FreeBadge } from "@/components/FreeBadge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/convex/_generated/api";
 import { useAuth } from "@/hooks/use-auth";
-import { formatPrice, relativeTime } from "@/lib/care";
+import { relativeTime } from "@/lib/care";
 import { useMutation, useQuery } from "convex/react";
 import { ArrowLeft, ArrowRight, Loader2, MessageSquare } from "lucide-react";
 import { useState, type FormEvent } from "react";
@@ -64,8 +65,8 @@ export default function ProgramDetail() {
             This program is not published.
           </h1>
           <p className="mt-4 max-w-md text-sm leading-6 text-muted-foreground">
-            It may have been retired by the operator, or the link may have
-            changed. The rest of the catalog is still open.
+            It may have been retired by the administrator, or the link may have
+            changed. The rest of the free catalog is still open.
           </p>
           <Button asChild variant="outline" className="mt-8 w-fit rounded-md">
             <Link to="/catalog">
@@ -106,11 +107,11 @@ export default function ProgramDetail() {
             <div className="grid gap-12 lg:grid-cols-[1.55fr_1fr] lg:gap-0">
               <div className="min-w-0 lg:pr-14">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="border border-border px-2 py-0.5 font-mono text-[9px] tracking-[0.12em] text-muted-foreground uppercase">
+                  <span className="rounded-full bg-accent px-2.5 py-0.5 text-[10px] font-medium text-accent-foreground">
                     {plan.category}
                   </span>
-                  <span className="font-mono text-[9px] tracking-[0.12em] text-muted-foreground uppercase">
-                    published
+                  <span className="rounded-full border border-[var(--chart-1)]/30 px-2.5 py-0.5 text-[10px] font-medium text-[var(--chart-1)]">
+                    Free
                   </span>
                 </div>
                 <h1 className="mt-5 text-[clamp(2.1rem,4.4vw,3.25rem)] leading-[1.02] font-medium tracking-[-0.035em]">
@@ -174,8 +175,8 @@ export default function ProgramDetail() {
                     </span>
                   </div>
                   <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                    Questions from families, answers from the operator. Keep
-                    medical details out of the thread.
+                    Questions from families, answers from the Saathi team. Keep
+                    private medical details out of the thread.
                   </p>
 
                   {isAuthenticated ? (
@@ -288,24 +289,21 @@ export default function ProgramDetail() {
 
               <aside className="min-w-0">
                 <div className="lg:sticky lg:top-24">
-                  <div className="border border-border p-6">
-                    <p className="label-eyebrow">Program fee</p>
-                    <p className="mt-3 font-mono text-4xl leading-none tracking-tight">
-                      {formatPrice(plan.price)}
+                  <div className="rounded-xl border border-[var(--chart-1)]/25 bg-accent/40 p-6">
+                    <FreeBadge label="100% free forever for every family" />
+                    <p className="mt-4 font-display text-3xl leading-tight tracking-[-0.01em]">
+                      Included at no cost.
                     </p>
-                    <p className="mt-2 text-[11px] text-muted-foreground">
-                      {plan.unit}
+                    <p className="mt-2 text-[11px] leading-5 text-muted-foreground">
+                      No card, no trial and no subscription. The same program is
+                      available to every family, for as long as it is needed.
                     </p>
-                    <Button asChild className="mt-6 w-full rounded-md">
+                    <Button asChild className="mt-6 w-full rounded-full">
                       <Link to="/auth?returnTo=%2Fonboarding">
-                        Enrol a parent
+                        Start free enrolment
                         <ArrowRight className="size-4" />
                       </Link>
                     </Button>
-                    <p className="mt-3 text-[11px] leading-5 text-muted-foreground">
-                      Billed monthly from the family workspace. Change or cancel
-                      a program at any time.
-                    </p>
                   </div>
 
                   <dl className="mt-8 border-t border-border">
@@ -354,12 +352,13 @@ export default function ProgramDetail() {
                   </div>
 
                   <p className="mt-8 border-t border-border pt-5 text-[11px] leading-5 text-muted-foreground">
-                    Operated by your care provider on Carecall.{" "}
+                    Run by the Saathi community team as part of the zero-cost
+                    health initiative.{" "}
                     <Link
                       to="/admin"
                       className="underline underline-offset-4 hover:text-foreground"
                     >
-                      Operator console
+                      Admin console
                     </Link>
                   </p>
                 </div>

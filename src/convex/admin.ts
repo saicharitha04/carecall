@@ -7,7 +7,7 @@ async function requireOperator(ctx: QueryCtx | MutationCtx) {
   const userId = await getAuthUserId(ctx);
   if (userId === null) throw new Error("Sign in to continue.");
   const user = await ctx.db.get(userId);
-  if (user?.role !== "admin") throw new Error("Operator access required.");
+  if (user?.role !== "admin") throw new Error("Admin access required.");
   return userId;
 }
 
@@ -31,25 +31,25 @@ export const isOperator = query({
 
 /**
  * Bootstrap route for a fresh deployment: the first signed-in account can
- * become the operator. Once an operator exists, this refuses every later
- * caller, so the console cannot be claimed by a customer.
+ * become the administrator. Once one exists, this refuses every later caller,
+ * so the console cannot be claimed by a family account.
  */
 export const claimOperator = mutation({
   args: {},
   handler: async (ctx) => {
     const userId = await getAuthUserId(ctx);
-    if (userId === null) throw new Error("Sign in to claim operator access.");
+    if (userId === null) throw new Error("Sign in to claim admin access.");
     const user = await ctx.db.get(userId);
     if (user?.role === "admin") return true;
     if (user?.isAnonymous)
       throw new Error(
-        "Create a full account before claiming operator access.",
+        "Create a full account before claiming admin access.",
       );
 
     const existing = await findOperatorId(ctx);
     if (existing) {
       throw new Error(
-        "This deployment already has an operator. Ask them to grant you access.",
+        "This deployment already has an administrator. Ask them to grant you access.",
       );
     }
 

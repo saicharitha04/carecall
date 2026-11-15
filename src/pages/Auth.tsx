@@ -1,3 +1,4 @@
+import { FreeBadge } from "@/components/FreeBadge";
 import { Wordmark } from "@/components/Wordmark";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -110,14 +111,17 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
 
       <main className="mx-auto grid w-full max-w-6xl flex-1 gap-12 px-6 py-14 md:grid-cols-[1fr_400px] md:gap-20 md:py-20">
         <div className="hidden md:block">
-          <p className="label-eyebrow">Carecall workspace</p>
-          <h1 className="mt-5 max-w-md font-display text-[clamp(2.4rem,4.4vw,3.4rem)] leading-[1.04] tracking-tight">
+          <p className="label-eyebrow">Saathi workspace</p>
+          <div className="mt-5">
+            <FreeBadge label="100% Free Forever for Every Family" />
+          </div>
+          <h1 className="mt-6 max-w-md font-display text-[clamp(2.4rem,4.4vw,3.4rem)] leading-[1.04] tracking-[-0.01em]">
             The care plan is yours to hold.
           </h1>
           <p className="mt-6 max-w-sm text-sm leading-7 text-muted-foreground">
             Your account keeps your parent's medical profile, prescription
             schedule and emergency contacts private. One sign-in, one place to
-            look.
+            look — and no payment step at any point.
           </p>
           <div className="mt-10 max-w-sm border-t border-border pt-5">
             <p className="flex items-start gap-3 text-xs leading-6 text-muted-foreground">
@@ -284,7 +288,7 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
           <p className="text-[11px] text-muted-foreground">
-            Carecall · guardian workspace
+            Saathi · free for every family
           </p>
           <p className="text-[11px] text-muted-foreground">
             Secured by freebuff.com

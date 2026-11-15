@@ -1,3 +1,4 @@
+import { FreeBadge } from "@/components/FreeBadge";
 import { Wordmark } from "@/components/Wordmark";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -401,7 +402,7 @@ export default function Onboarding() {
           <Wordmark />
           <div className="flex items-center gap-6">
             <span className="hidden font-mono text-[10px] tracking-[0.1em] text-muted-foreground uppercase sm:inline">
-              Carecall · enrolment
+              Saathi · free enrolment
             </span>
             <Link
               to="/catalog"
@@ -422,12 +423,15 @@ export default function Onboarding() {
       <main className="mx-auto max-w-6xl px-6 py-12 md:py-16">
         <div className="grid gap-12 md:grid-cols-[240px_1fr] md:gap-16">
           <aside className="md:sticky md:top-12 md:self-start">
-            <p className="label-eyebrow">Enrolment</p>
-            <h1 className="mt-4 font-display text-3xl leading-[1.15] tracking-tight">
+            <p className="label-eyebrow">Free enrolment</p>
+            <h1 className="mt-4 font-display text-3xl leading-[1.15] tracking-[-0.01em]">
               Five quiet minutes,
               <br />
               years of peace of mind.
             </h1>
+            <div className="mt-5">
+              <FreeBadge compact label="No card · no fee · no subscription" />
+            </div>
             <ol className="mt-9 hidden md:block">
               {STEPS.map((item) => {
                 const done = step > item.id;
@@ -464,7 +468,7 @@ export default function Onboarding() {
             </ol>
             <p className="mt-8 hidden max-w-[200px] text-xs leading-5 text-muted-foreground md:block">
               Your parent never sees this screen. They only receive a phone call
-              in their own language.
+              in their own language — at no cost to them.
             </p>
           </aside>
 

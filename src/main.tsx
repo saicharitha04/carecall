@@ -141,8 +141,8 @@ createRoot(document.getElementById("root")!).render(
                 path="/admin"
                 element={
                   <RequireAuth
-                    title="Sign in to the operator console"
-                    description="Program management is restricted to the deployment operator."
+                    title="Sign in to the admin console"
+                    description="Free program management is restricted to the deployment administrator."
                   >
                     <Admin />
                   </RequireAuth>

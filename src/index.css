@@ -43,80 +43,80 @@
 }
 
 /* CHANGE VALUES FOR THEME */
-/* Carecall — dark, restrained, technical. Near-monochrome with a mint signal. */
+/* Saathi — calm clinical light, deep teal ink, mint accents. */
 :root {
-  --radius: 0.375rem;
-  --background: oklch(0.168 0.006 250);
-  --foreground: oklch(0.952 0.003 250);
-  --card: oklch(0.196 0.007 250);
-  --card-foreground: oklch(0.952 0.003 250);
-  --popover: oklch(0.205 0.007 250);
-  --popover-foreground: oklch(0.952 0.003 250);
-  --primary: oklch(0.93 0.004 250);
-  --primary-foreground: oklch(0.18 0.006 250);
-  --secondary: oklch(0.235 0.007 250);
-  --secondary-foreground: oklch(0.94 0.003 250);
-  --muted: oklch(0.225 0.006 250);
-  --muted-foreground: oklch(0.665 0.008 250);
-  --accent: oklch(0.265 0.022 190);
-  --accent-foreground: oklch(0.9 0.045 180);
-  --destructive: oklch(0.63 0.17 25);
-  --border: oklch(1 0 0 / 11%);
-  --input: oklch(1 0 0 / 16%);
-  --ring: oklch(0.72 0.035 200);
-  --chart-1: oklch(0.81 0.095 172);
-  --chart-2: oklch(0.66 0.06 197);
-  --chart-3: oklch(0.53 0.04 210);
-  --chart-4: oklch(0.4 0.03 215);
-  --chart-5: oklch(0.88 0.012 250);
-  --sidebar: oklch(0.185 0.006 250);
-  --sidebar-foreground: oklch(0.952 0.003 250);
-  --sidebar-primary: oklch(0.93 0.004 250);
-  --sidebar-primary-foreground: oklch(0.18 0.006 250);
-  --sidebar-accent: oklch(0.235 0.007 250);
-  --sidebar-accent-foreground: oklch(0.94 0.003 250);
-  --sidebar-border: oklch(1 0 0 / 11%);
-  --sidebar-ring: oklch(0.72 0.035 200);
+  --radius: 0.5rem;
+  --background: oklch(0.984 0.005 212);
+  --foreground: oklch(0.215 0.022 232);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.215 0.022 232);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.215 0.022 232);
+  --primary: oklch(0.38 0.058 196);
+  --primary-foreground: oklch(0.99 0.002 200);
+  --secondary: oklch(0.955 0.008 212);
+  --secondary-foreground: oklch(0.25 0.02 230);
+  --muted: oklch(0.958 0.007 212);
+  --muted-foreground: oklch(0.45 0.022 230);
+  --accent: oklch(0.955 0.03 177);
+  --accent-foreground: oklch(0.3 0.055 192);
+  --destructive: oklch(0.535 0.19 27);
+  --border: oklch(0.9 0.01 215);
+  --input: oklch(0.875 0.012 215);
+  --ring: oklch(0.56 0.06 195);
+  --chart-1: oklch(0.47 0.082 186);
+  --chart-2: oklch(0.62 0.052 200);
+  --chart-3: oklch(0.75 0.038 200);
+  --chart-4: oklch(0.86 0.028 190);
+  --chart-5: oklch(0.35 0.03 232);
+  --sidebar: oklch(0.99 0.003 212);
+  --sidebar-foreground: oklch(0.215 0.022 232);
+  --sidebar-primary: oklch(0.38 0.058 196);
+  --sidebar-primary-foreground: oklch(0.99 0.002 200);
+  --sidebar-accent: oklch(0.958 0.007 212);
+  --sidebar-accent-foreground: oklch(0.25 0.02 230);
+  --sidebar-border: oklch(0.9 0.01 215);
+  --sidebar-ring: oklch(0.56 0.06 195);
 }
 
 .dark {
-  --background: oklch(0.168 0.006 250);
-  --foreground: oklch(0.952 0.003 250);
-  --card: oklch(0.196 0.007 250);
-  --card-foreground: oklch(0.952 0.003 250);
-  --popover: oklch(0.205 0.007 250);
-  --popover-foreground: oklch(0.952 0.003 250);
-  --primary: oklch(0.93 0.004 250);
-  --primary-foreground: oklch(0.18 0.006 250);
-  --secondary: oklch(0.235 0.007 250);
-  --secondary-foreground: oklch(0.94 0.003 250);
-  --muted: oklch(0.225 0.006 250);
-  --muted-foreground: oklch(0.665 0.008 250);
-  --accent: oklch(0.265 0.022 190);
-  --accent-foreground: oklch(0.9 0.045 180);
-  --destructive: oklch(0.63 0.17 25);
-  --border: oklch(1 0 0 / 11%);
+  --background: oklch(0.18 0.012 226);
+  --foreground: oklch(0.96 0.004 210);
+  --card: oklch(0.21 0.014 226);
+  --card-foreground: oklch(0.96 0.004 210);
+  --popover: oklch(0.21 0.014 226);
+  --popover-foreground: oklch(0.96 0.004 210);
+  --primary: oklch(0.9 0.02 190);
+  --primary-foreground: oklch(0.2 0.015 226);
+  --secondary: oklch(0.27 0.014 226);
+  --secondary-foreground: oklch(0.96 0.004 210);
+  --muted: oklch(0.27 0.014 226);
+  --muted-foreground: oklch(0.72 0.012 220);
+  --accent: oklch(0.3 0.03 185);
+  --accent-foreground: oklch(0.93 0.03 180);
+  --destructive: oklch(0.66 0.17 25);
+  --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 16%);
-  --ring: oklch(0.72 0.035 200);
-  --chart-1: oklch(0.81 0.095 172);
-  --chart-2: oklch(0.66 0.06 197);
-  --chart-3: oklch(0.53 0.04 210);
-  --chart-4: oklch(0.4 0.03 215);
-  --chart-5: oklch(0.88 0.012 250);
-  --sidebar: oklch(0.185 0.006 250);
-  --sidebar-foreground: oklch(0.952 0.003 250);
-  --sidebar-primary: oklch(0.93 0.004 250);
-  --sidebar-primary-foreground: oklch(0.18 0.006 250);
-  --sidebar-accent: oklch(0.235 0.007 250);
-  --sidebar-accent-foreground: oklch(0.94 0.003 250);
-  --sidebar-border: oklch(1 0 0 / 11%);
-  --sidebar-ring: oklch(0.72 0.035 200);
+  --ring: oklch(0.65 0.05 195);
+  --chart-1: oklch(0.75 0.08 180);
+  --chart-2: oklch(0.62 0.05 200);
+  --chart-3: oklch(0.5 0.04 200);
+  --chart-4: oklch(0.4 0.03 190);
+  --chart-5: oklch(0.85 0.01 220);
+  --sidebar: oklch(0.2 0.012 226);
+  --sidebar-foreground: oklch(0.96 0.004 210);
+  --sidebar-primary: oklch(0.9 0.02 190);
+  --sidebar-primary-foreground: oklch(0.2 0.015 226);
+  --sidebar-accent: oklch(0.27 0.014 226);
+  --sidebar-accent-foreground: oklch(0.96 0.004 210);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.65 0.05 195);
 }
 
 @theme {
-  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     sans-serif;
-  --font-display: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Instrument Serif", ui-serif, Georgia, Cambria, serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
@@ -125,22 +125,22 @@
     @apply border-border outline-ring/50;
   }
   html {
-    color-scheme: dark;
+    color-scheme: light;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
+    font-feature-settings: "cv05" 1, "ss01" 1;
   }
   ::selection {
     background: var(--accent);
     color: var(--accent-foreground);
   }
   input[type="time"]::-webkit-calendar-picker-indicator {
-    opacity: 0.45;
+    opacity: 0.5;
     cursor: pointer;
-    filter: invert(1);
   }
   button:not([disabled]),
   [role="button"]:not([disabled]) {
@@ -150,10 +150,10 @@
 
 @layer components {
   .label-eyebrow {
-    font-family: var(--font-mono);
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
     line-height: 1rem;
-    letter-spacing: 0.14em;
+    font-weight: 500;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
     color: var(--muted-foreground);
   }

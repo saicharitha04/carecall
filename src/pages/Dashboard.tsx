@@ -1,3 +1,4 @@
+import { FreeBadge } from "@/components/FreeBadge";
 import { Wordmark } from "@/components/Wordmark";
 import { Button } from "@/components/ui/button";
 import { api } from "@/convex/_generated/api";
@@ -101,8 +102,9 @@ export default function Dashboard() {
               to="/admin"
               className="hidden text-xs text-muted-foreground transition-colors hover:text-foreground sm:inline"
             >
-              Operator
+              Admin
             </Link>
+            <FreeBadge compact className="hidden lg:inline-flex" />
             <div className="hidden h-4 w-px bg-border sm:block" />
             <span className="hidden max-w-[180px] truncate text-xs text-muted-foreground md:inline">
               {user?.name || user?.email}
@@ -121,7 +123,10 @@ export default function Dashboard() {
 
       {!senior ? (
         <main className="mx-auto max-w-3xl px-6 py-24">
-          <p className="label-eyebrow">Carecall workspace</p>
+          <p className="label-eyebrow">Saathi workspace</p>
+          <div className="mt-4">
+            <FreeBadge label="100% Free Forever for Every Family" />
+          </div>
           <h1 className="mt-4 font-display text-4xl leading-tight tracking-tight sm:text-5xl">
             Nobody is enrolled yet.
           </h1>
@@ -263,6 +268,7 @@ function SeniorSummary({
           </div>
 
           <div className="flex flex-col items-start gap-3 sm:items-end">
+            <FreeBadge compact label="100% free forever · no card needed" />
             <span className="inline-flex items-center gap-2 border border-border px-3 py-1.5 text-[11px] text-muted-foreground">
               <span className="relative flex size-1.5">
                 <span className="absolute inline-flex size-full animate-ping rounded-full bg-[var(--chart-1)] opacity-60" />
@@ -654,6 +660,10 @@ function SeniorSummary({
           <p className="mt-5 text-[11px] leading-5 text-muted-foreground/80">
             Escalation is configured and ready. Stage 1 retry, Stage 2 alert to
             you, Stage 3 neighbourhood and ambulance routing.
+          </p>
+          <p className="mt-4 border-t border-border pt-4 text-[11px] leading-5 text-muted-foreground">
+            Saathi is free for every family — no fee, no card, no subscription,
+            and no paid tier for better care.
           </p>
         </div>
       </section>

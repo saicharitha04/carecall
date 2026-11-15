@@ -1,11 +1,11 @@
 import { CareFooter, CareHeader } from "@/components/CareHeader";
+import { FreeBadge } from "@/components/FreeBadge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { api } from "@/convex/_generated/api";
-import { formatPrice } from "@/lib/care";
 import { cn } from "@/lib/utils";
 import { useQuery } from "convex/react";
-import { ArrowUpRight, Search } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 
@@ -51,26 +51,24 @@ export default function Catalog() {
         <section className="mx-auto max-w-6xl px-6 pt-14 pb-10 md:pt-20">
           <div className="flex flex-wrap items-end justify-between gap-8">
             <div>
-              <p className="label-eyebrow">Care programs</p>
-              <h1 className="mt-4 max-w-2xl text-[clamp(2.25rem,4.6vw,3.4rem)] leading-[1.02] font-medium tracking-[-0.035em]">
-                Care, packaged into
+              <p className="label-eyebrow">Free care programs</p>
+              <h1 className="mt-4 max-w-2xl font-display text-[clamp(2.4rem,4.8vw,3.6rem)] leading-[1.02] tracking-[-0.015em]">
+                Support for your family,
                 <br />
-                working programs.
+                at no cost at all.
               </h1>
               <p className="mt-5 max-w-xl text-sm leading-7 text-muted-foreground">
-                Each program is a live part of the Carecall platform — priced per
-                senior, scoped by language, and visible to the family from the
-                first call.
+                Browse the programs Saathi offers every family. Each one is
+                included in full — there is no paid tier, no upgrade prompt, and
+                nothing withheld from the free version.
               </p>
             </div>
-            <div className="border border-border px-4 py-3">
-              <p className="font-mono text-[9px] tracking-[0.14em] text-muted-foreground uppercase">
-                Catalog
-              </p>
-              <p className="mt-1 font-mono text-xs">
+            <div className="flex flex-col items-start gap-3">
+              <FreeBadge label="100% Free Forever for Every Family" />
+              <p className="text-[11px] text-muted-foreground">
                 {plans === undefined
-                  ? "—"
-                  : `${plans.length} published program${plans.length === 1 ? "" : "s"}`}
+                  ? "Loading programs"
+                  : `${plans.length} program${plans.length === 1 ? "" : "s"} · all free`}
               </p>
             </div>
           </div>
@@ -95,10 +93,10 @@ export default function Catalog() {
                   type="button"
                   onClick={() => setCategory(item)}
                   className={cn(
-                    "border px-2.5 py-1 font-mono text-[10px] tracking-[0.06em] uppercase transition-colors",
+                    "rounded-full border px-3 py-1 text-[11px] transition-colors",
                     category === item
-                      ? "border-foreground bg-foreground text-background"
-                      : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground",
+                      ? "border-[var(--chart-1)] bg-[var(--chart-1)] text-white"
+                      : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
                   )}
                 >
                   {item}
@@ -116,36 +114,36 @@ export default function Catalog() {
                   key={row}
                   className="grid grid-cols-[32px_1fr_auto] gap-5 border-b border-border py-7"
                 >
-                  <span className="mt-1 h-2 w-4 animate-pulse bg-muted" />
+                  <span className="mt-1 h-2 w-4 animate-pulse rounded bg-muted" />
                   <div className="space-y-3">
-                    <span className="block h-3.5 w-40 animate-pulse bg-muted" />
-                    <span className="block h-2.5 w-full max-w-md animate-pulse bg-muted" />
+                    <span className="block h-3.5 w-40 animate-pulse rounded bg-muted" />
+                    <span className="block h-2.5 w-full max-w-md animate-pulse rounded bg-muted" />
                   </div>
-                  <span className="h-3 w-16 animate-pulse bg-muted" />
+                  <span className="h-3 w-12 animate-pulse rounded bg-muted" />
                 </div>
               ))}
             </div>
           ) : filtered.length === 0 ? (
             <div className="border-t border-border py-20 text-center">
-              <p className="font-mono text-[10px] tracking-[0.14em] text-muted-foreground uppercase">
+              <p className="text-[11px] font-medium tracking-[0.12em] text-muted-foreground uppercase">
                 No results
               </p>
               <p className="mt-3 text-sm text-muted-foreground">
                 {plans.length === 0
-                  ? "The catalog is being prepared. An operator can publish the starter programs from the console."
+                  ? "The program list is being prepared. An administrator can publish the starter programs from the console."
                   : "Nothing matches that search. Try a broader term or a different category."}
               </p>
               <div className="mt-6 flex flex-wrap justify-center gap-3">
                 {plans.length === 0 ? (
-                  <Button asChild variant="outline" size="sm" className="rounded-md">
-                    <Link to="/admin">Open operator console</Link>
+                  <Button asChild variant="outline" size="sm" className="rounded-full">
+                    <Link to="/admin">Open the admin console</Link>
                   </Button>
                 ) : (
                   <Button
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="rounded-md"
+                    className="rounded-full"
                     onClick={() => {
                       setQuery("");
                       setCategory("All");
@@ -158,47 +156,44 @@ export default function Catalog() {
             </div>
           ) : (
             <>
-              <p className="py-4 font-mono text-[10px] tracking-[0.1em] text-muted-foreground uppercase">
+              <p className="py-4 text-[11px] text-muted-foreground">
                 {filtered.length} program{filtered.length === 1 ? "" : "s"}
-                {category !== "All" ? ` · ${category}` : ""}
+                {category !== "All" ? ` · ${category}` : ""} · free to enrol
               </p>
               <div className="border-t border-border">
                 {filtered.map((plan, index) => (
                   <Link
                     key={plan._id}
                     to={`/catalog/${plan.slug}`}
-                    className="group grid grid-cols-[28px_1fr] items-start gap-4 border-b border-border py-7 transition-colors hover:bg-secondary/25 md:grid-cols-[32px_1fr_160px] md:gap-6"
+                    className="group grid grid-cols-[28px_1fr] items-start gap-4 border-b border-border py-7 transition-colors hover:bg-secondary/40 md:grid-cols-[32px_1fr_140px] md:gap-6"
                   >
-                    <span className="pt-1 font-mono text-[10px] text-muted-foreground tabular-nums">
+                    <span className="pt-1 text-[10px] text-muted-foreground tabular-nums">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
-                        <h2 className="text-base font-medium tracking-[-0.01em]">
+                        <h2 className="text-base font-medium">
                           {plan.name}
                         </h2>
-                        <span className="border border-border px-1.5 py-0.5 font-mono text-[9px] tracking-[0.1em] text-muted-foreground uppercase">
+                        <span className="rounded-full bg-accent px-2 py-0.5 text-[10px] font-medium text-accent-foreground">
                           {plan.category}
                         </span>
                       </div>
                       <p className="mt-2 max-w-xl text-sm leading-6 text-muted-foreground">
                         {plan.tagline}
                       </p>
-                      <p className="mt-3 truncate font-mono text-[10px] text-muted-foreground/80">
+                      <p className="mt-3 truncate text-[11px] text-muted-foreground/80">
                         {plan.languages.slice(0, 4).join(" · ")}
                         {plan.languages.length > 4
                           ? ` · +${plan.languages.length - 4}`
                           : ""}
                       </p>
                     </div>
-                    <div className="col-start-2 flex items-center justify-between gap-4 md:col-start-3 md:block md:text-right">
-                      <div>
-                        <p className="font-mono text-sm">{formatPrice(plan.price)}</p>
-                        <p className="mt-1 text-[10px] text-muted-foreground">
-                          {plan.unit}
-                        </p>
-                      </div>
-                      <ArrowUpRight className="size-4 text-muted-foreground transition-colors group-hover:text-foreground md:mt-4 md:ml-auto" />
+                    <div className="col-start-2 flex items-center justify-between gap-4 md:col-start-3 md:justify-end">
+                      <span className="rounded-full border border-[var(--chart-1)]/30 px-2.5 py-1 text-[10px] font-medium text-[var(--chart-1)]">
+                        Free
+                      </span>
+                      <ArrowUpRight className="size-4 text-muted-foreground transition-colors group-hover:text-foreground" />
                     </div>
                   </Link>
                 ))}
@@ -207,20 +202,25 @@ export default function Catalog() {
           )}
         </section>
 
-        <section className="border-t border-border">
+        <section className="border-t border-border bg-accent/25">
           <div className="mx-auto flex max-w-6xl flex-col justify-between gap-6 px-6 py-12 sm:flex-row sm:items-center">
             <div>
-              <p className="label-eyebrow">Not sure where to start</p>
+              <p className="label-eyebrow text-accent-foreground">
+                Not sure where to start
+              </p>
               <p className="mt-2 max-w-md text-sm text-muted-foreground">
-                Most families begin with Daily Voice Care and add monitoring once
-                the first week of calls is behind them.
+                Most families begin with medication calls and add watch
+                monitoring once the first week is behind them. Both are free.
               </p>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <Button asChild className="rounded-md">
-                <Link to="/auth?returnTo=%2Fonboarding">Enrol a parent</Link>
+            <div className="flex flex-wrap items-center gap-3">
+              <Button asChild className="rounded-full">
+                <Link to="/auth?returnTo=%2Fonboarding">
+                  Start free onboarding
+                  <ArrowRight className="size-4" />
+                </Link>
               </Button>
-              <Button asChild variant="outline" className="rounded-md">
+              <Button asChild variant="outline" className="rounded-full">
                 <Link to="/dashboard">Open the workspace</Link>
               </Button>
             </div>

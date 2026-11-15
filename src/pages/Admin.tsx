@@ -1,4 +1,5 @@
 import { CareFooter, CareHeader } from "@/components/CareHeader";
+import { FreeBadge } from "@/components/FreeBadge";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,7 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useAuth } from "@/hooks/use-auth";
-import { formatPrice, relativeTime } from "@/lib/care";
+import { relativeTime } from "@/lib/care";
 import { cn } from "@/lib/utils";
 import { useMutation, useQuery } from "convex/react";
 import {
@@ -80,12 +81,12 @@ export default function Admin() {
     setClaimError(null);
     try {
       await claimOperator();
-      toast.success("Operator access granted");
+      toast.success("Admin access granted");
     } catch (error) {
       setClaimError(
         error instanceof Error
           ? error.message
-          : "Could not grant operator access.",
+          : "Could not grant admin access.",
       );
     } finally {
       setClaiming(false);
@@ -156,27 +157,27 @@ export default function Admin() {
         </main>
       ) : !isOperator ? (
         <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-20">
-          <p className="label-eyebrow">Operator console · restricted</p>
+          <p className="label-eyebrow">Admin console · restricted</p>
           <h1 className="mt-4 text-[clamp(2rem,4vw,3rem)] leading-[1.04] font-medium tracking-[-0.035em]">
             Run the catalog your
             <br />
             families see.
           </h1>
           <p className="mt-5 max-w-lg text-sm leading-7 text-muted-foreground">
-            Operators publish care programs, review every enrolment across their
-            customer base, and moderate the conversation on each program page.
-            Access is granted once per deployment.
+            Administrators publish free care programs, review every enrolment
+            across the community, and moderate the conversation on each program
+            page. Access is granted once per deployment.
           </p>
 
           <div className="mt-10 border border-border p-6">
             <div className="flex items-center gap-2">
               <ShieldCheck className="size-4 text-[var(--chart-1)]" />
-              <p className="text-sm font-medium">Claim operator access</p>
+              <p className="text-sm font-medium">Claim admin access</p>
             </div>
             <p className="mt-2 max-w-md text-xs leading-5 text-muted-foreground">
-              Available only while this deployment has no operator, and only to
-              a full email account. Once claimed, later accounts cannot take the
-              console.
+              Available only while this deployment has no administrator, and
+              only to a full email account. Once claimed, later accounts cannot
+              take the console.
             </p>
             <Button
               type="button"
@@ -190,7 +191,7 @@ export default function Admin() {
                   Claiming
                 </>
               ) : (
-                "Claim operator access"
+                "Claim admin access"
               )}
             </Button>
             {claimError && (
@@ -220,19 +221,22 @@ export default function Admin() {
           <section className="border-b border-border py-10">
             <div className="flex flex-wrap items-start justify-between gap-6">
               <div>
-                <p className="label-eyebrow">Carecall / operator</p>
+                <p className="label-eyebrow">Saathi / admin</p>
                 <h1 className="mt-3 text-[clamp(2rem,4vw,2.75rem)] leading-[1.04] font-medium tracking-[-0.035em]">
-                  Operator console
+                  Admin console
                 </h1>
                 <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
-                  Publish programs, watch enrolments, and moderate the
-                  conversation. Every change is attributed to your operator
+                  Publish free programs, watch enrolments, and moderate the
+                  conversation. Every change is attributed to your admin
                   account.
                 </p>
+                <div className="mt-4">
+                  <FreeBadge label="Zero Cost Community Health Initiative" />
+                </div>
               </div>
-              <div className="flex flex-col items-start gap-2 border border-border px-3 py-2 sm:items-end">
-                <span className="font-mono text-[9px] tracking-[0.12em] text-muted-foreground uppercase">
-                  Operator · active
+              <div className="flex flex-col items-start gap-2 rounded-xl border border-border bg-card px-3 py-2 sm:items-end">
+                <span className="text-[9px] font-medium tracking-[0.12em] text-muted-foreground uppercase">
+                  Admin · active
                 </span>
                 <span className="max-w-[240px] truncate text-[11px]">
                   {user?.email || "anonymous workspace"}
@@ -316,9 +320,8 @@ export default function Admin() {
                           {plan.status}
                         </span>
                       </div>
-                      <p className="mt-1 font-mono text-[10px] text-muted-foreground">
-                        /{plan.slug} · {plan.category} · {formatPrice(plan.price)}{" "}
-                        {plan.price > 0 ? plan.unit : ""}
+                      <p className="mt-1 text-[10px] text-muted-foreground">
+                        /{plan.slug} · {plan.category} · free to every family
                       </p>
                     </div>
                     <div className="flex flex-wrap items-center gap-1">
@@ -549,8 +552,6 @@ function ProgramDialog({
   const [tagline, setTagline] = useState(plan?.tagline ?? "");
   const [category, setCategory] = useState(plan?.category ?? "Medication");
   const [summary, setSummary] = useState(plan?.summary ?? "");
-  const [price, setPrice] = useState(plan ? String(plan.price) : "399");
-  const [unit, setUnit] = useState(plan?.unit ?? "per senior / month");
   const [status, setStatus] = useState<PlanStatus>(plan?.status ?? "published");
   const [languages, setLanguages] = useState(
     plan?.languages.join(", ") ?? "English",
@@ -586,8 +587,8 @@ function ProgramDialog({
         tagline,
         category,
         summary,
-        price: Number(price) || 0,
-        unit,
+        price: 0,
+        unit: "Free for every family",
         languages: languages
           .split(",")
           .map((item) => item.trim())
@@ -620,8 +621,8 @@ function ProgramDialog({
             {plan ? "Edit program" : "New program"}
           </DialogTitle>
           <DialogDescription className="text-xs">
-            Published programs are visible in the customer catalog and can be
-            enrolled from their detail page.
+            Published programs appear in the free catalog and can be enrolled
+            from their detail page. Nothing here carries a price.
           </DialogDescription>
         </DialogHeader>
 
@@ -665,24 +666,7 @@ function ProgramDialog({
             />
           </Field>
 
-          <div className="grid gap-5 sm:grid-cols-3">
-            <Field label="Price (₹)">
-              <Input
-                value={price}
-                onChange={(event) =>
-                  setPrice(event.target.value.replace(/[^\d]/g, ""))
-                }
-                inputMode="numeric"
-                className={fieldLine}
-              />
-            </Field>
-            <Field label="Unit">
-              <Input
-                value={unit}
-                onChange={(event) => setUnit(event.target.value)}
-                className={fieldLine}
-              />
-            </Field>
+          <div className="grid gap-5 sm:grid-cols-2">
             <Field label="Status">
               <Select
                 value={status}
@@ -698,6 +682,12 @@ function ProgramDialog({
                 </SelectContent>
               </Select>
             </Field>
+            <div className="flex items-end pb-2">
+              <p className="text-[11px] leading-5 text-muted-foreground">
+                Every program is free. There is no price, billing or payment
+                field to configure.
+              </p>
+            </div>
           </div>
 
           <Field label="Languages" hint="Comma separated.">

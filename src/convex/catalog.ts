@@ -26,7 +26,7 @@ async function requireOperator(ctx: QueryCtx | MutationCtx) {
   const userId = await getAuthUserId(ctx);
   if (userId === null) throw new Error("Sign in to continue.");
   const user = await ctx.db.get(userId);
-  if (user?.role !== "admin") throw new Error("Operator access required.");
+  if (user?.role !== "admin") throw new Error("Admin access required.");
   return userId;
 }
 
@@ -47,8 +47,8 @@ const STARTER_CATALOG = [
     category: "Medication",
     summary:
       "A two-way AI call at every dose time. The agent names the tablet, describes its colour and shape, says exactly where it is kept, and stays on the line for questions about food, side effects or pain. Confirmation is captured by voice or keypad, and every outcome is written to the family workspace.",
-    price: 399,
-    unit: "per senior / month",
+    price: 0,
+    unit: "Free for every family",
     languages: ["Telugu", "Hindi", "Tamil", "Kannada", "Malayalam", "English"],
     features: [
       "Outbound AI calls at each prescribed dose time",
@@ -73,9 +73,9 @@ const STARTER_CATALOG = [
       "Heart rate, blood oxygen and sleep from the watch already on their wrist.",
     category: "Monitoring",
     summary:
-      "Carecall reads the measurements a budget smartwatch already takes and turns them into a quiet baseline. Nothing to open, pair or configure on the senior's phone. Anomalies are compared against that individual baseline, not a population average, before anything is escalated.",
-    price: 249,
-    unit: "per senior / month",
+      "Saathi reads the measurements a budget smartwatch already takes and turns them into a quiet baseline. Nothing to open, pair or configure on the senior's phone. Anomalies are compared against that individual baseline, not a population average, before anything is escalated.",
+    price: 0,
+    unit: "Free for every family",
     languages: ["Language independent"],
     features: [
       "Passive sync through Google Health Connect and Apple HealthKit",
@@ -100,8 +100,8 @@ const STARTER_CATALOG = [
     category: "Emergency",
     summary:
       "A missed dose or a critical reading never ends at a notification. Stage one retries the senior. Stage two reaches the primary guardian by WhatsApp and SMS. Stage three routes to a named neighbour, then to the nearest ambulance desk with the home address and the latest vitals.",
-    price: 499,
-    unit: "per senior / month",
+    price: 0,
+    unit: "Free for every family",
     languages: ["English", "Hindi", "Telugu", "Tamil", "Kannada"],
     features: [
       "Stage 1 retry and non-adherence logging",
@@ -125,9 +125,9 @@ const STARTER_CATALOG = [
     tagline: "One care plan, one page, every guardian who shares it.",
     category: "Platform",
     summary:
-      "The guardian side of Carecall. Enrol a parent in minutes, upload the prescription, and keep the medical record, emergency hierarchy and care history together. Several family members can hold access without forwarding screenshots to each other.",
-    price: 199,
-    unit: "per family / month",
+      "The guardian side of Saathi. Enrol a parent in minutes, upload the prescription, and keep the medical record, emergency hierarchy and care history together. Several family members can hold access without forwarding screenshots to each other.",
+    price: 0,
+    unit: "Free for every family",
     languages: ["English", "Hindi"],
     features: [
       "Multi-step senior enrolment with prescription parsing",
@@ -151,8 +151,8 @@ const STARTER_CATALOG = [
     category: "Voice",
     summary:
       "The same call, spoken the way your parent actually speaks. Each language pack is reviewed by native speakers, keeps a per-family glossary for medicine names, and can be adjusted for dialect and pace without changing the underlying program.",
-    price: 149,
-    unit: "per senior / month",
+    price: 0,
+    unit: "Free for every family",
     languages: [
       "Telugu",
       "Hindi",
@@ -179,42 +179,46 @@ const STARTER_CATALOG = [
     ],
     order: 5,
   },
-  {
-    slug: "operator-console",
-    name: "Operator Console",
-    tagline:
-      "Publish programs, review enrolments, and moderate the conversation.",
-    category: "Platform",
-    summary:
-      "The business side of Carecall. Operators manage the program catalog, control what is published, review every enrolment across their customer base, and step into the comment thread when a family has a question. Access is role-gated and every change is attributed.",
-    price: 0,
-    unit: "custom pricing",
-    languages: ["English"],
-    features: [
-      "Program catalog with draft and published states",
-      "Enrolment overview across all customers",
-      "Comment moderation and removal",
-      "Role-gated access with attributed changes",
-    ],
-    specs: [
-      { label: "Access", value: "Operator role" },
-      { label: "Deployment", value: "Managed or self-hosted" },
-      { label: "Billing", value: "Platform fee plus usage" },
-      { label: "Support", value: "Business hours, IST" },
-    ],
-    order: 6,
-  },
 ];
+
+const FREE_UNIT = "Free for every family";
 
 export const seedCatalog = mutation({
   args: {},
   handler: async (ctx) => {
-    const existing = await ctx.db.query("plans").first();
-    if (existing) return { seeded: 0 };
+    const existing = await ctx.db.query("plans").collect();
+    if (existing.length > 0) {
+      // Normalise a previously seeded catalog: every care program is free, and
+      // the old commercial console listing is retired.
+      let updated = 0;
+      for (const plan of existing) {
+        if (plan.slug === "operator-console") {
+          const comments = await ctx.db
+            .query("planComments")
+            .withIndex("by_plan", (q) => q.eq("planId", plan._id))
+            .collect();
+          for (const comment of comments) await ctx.db.delete(comment._id);
+          await ctx.db.delete(plan._id);
+          updated += 1;
+          continue;
+        }
+        if (plan.price !== 0 || plan.unit !== FREE_UNIT) {
+          await ctx.db.patch(plan._id, {
+            price: 0,
+            unit: FREE_UNIT,
+            updatedAt: Date.now(),
+          });
+          updated += 1;
+        }
+      }
+      return { seeded: 0, updated };
+    }
     const now = Date.now();
     for (const plan of STARTER_CATALOG) {
       await ctx.db.insert("plans", {
         ...plan,
+        price: 0,
+        unit: FREE_UNIT,
         status: "published",
         createdAt: now,
         updatedAt: now,
@@ -287,13 +291,15 @@ export const upsertPlan = mutation({
       slug = `${slug}-${suffix}`;
     }
 
+    // Every program is free. Pricing is not a configurable field in Saathi, so
+    // these values are fixed here rather than trusted from the client.
     const payload = {
       name: args.name.trim(),
       tagline: args.tagline.trim(),
-      category: args.category.trim() || "Platform",
+      category: args.category.trim() || "Care",
       summary: args.summary.trim(),
-      price: Math.max(0, Math.round(args.price)),
-      unit: args.unit.trim() || "per senior / month",
+      price: 0,
+      unit: FREE_UNIT,
       languages: args.languages.filter(Boolean),
       features: args.features.filter(Boolean),
       specs: args.specs.filter((spec) => spec.label.trim() && spec.value.trim()),
