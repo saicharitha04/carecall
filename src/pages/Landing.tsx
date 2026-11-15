@@ -431,7 +431,7 @@ export default function Landing() {
             them from a distance.
           </p>
           <p className="text-[11px] text-muted-foreground">
-            Version 1 · Guardian onboarding & health summary
+            Version 1 · Guardian onboarding &amp; senior health summary
           </p>
         </div>
       </footer>
