@@ -111,7 +111,7 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
 
       <main className="mx-auto grid w-full max-w-6xl flex-1 gap-12 px-6 py-14 md:grid-cols-[1fr_400px] md:gap-20 md:py-20">
         <div className="hidden md:block">
-          <p className="label-eyebrow">Saathi workspace</p>
+          <p className="label-eyebrow">CareCall workspace</p>
           <div className="mt-5">
             <FreeBadge label="100% Free Forever for Every Family" />
           </div>
@@ -288,7 +288,7 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
           <p className="text-[11px] text-muted-foreground">
-            Saathi · free for every family
+            CareCall · free for every family
           </p>
           <p className="text-[11px] text-muted-foreground">
             Secured by freebuff.com

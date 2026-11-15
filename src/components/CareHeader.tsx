@@ -119,7 +119,7 @@ export function CareFooter() {
           </nav>
         </div>
         <p className="mt-6 border-t border-border pt-4 text-[10px] text-muted-foreground">
-          Saathi · Zero Cost Community Health Initiative · Built for public good,
+          CareCall · Zero Cost Community Health Initiative · Built for public good,
           not for profit.
         </p>
       </div>

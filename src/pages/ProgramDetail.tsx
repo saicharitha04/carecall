@@ -175,7 +175,7 @@ export default function ProgramDetail() {
                     </span>
                   </div>
                   <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                    Questions from families, answers from the Saathi team. Keep
+                    Questions from families, answers from the CareCall team. Keep
                     private medical details out of the thread.
                   </p>
 
@@ -352,7 +352,7 @@ export default function ProgramDetail() {
                   </div>
 
                   <p className="mt-8 border-t border-border pt-5 text-[11px] leading-5 text-muted-foreground">
-                    Run by the Saathi community team as part of the zero-cost
+                    Run by the CareCall community team as part of the zero-cost
                     health initiative.{" "}
                     <Link
                       to="/admin"

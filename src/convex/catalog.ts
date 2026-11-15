@@ -73,7 +73,7 @@ const STARTER_CATALOG = [
       "Heart rate, blood oxygen and sleep from the watch already on their wrist.",
     category: "Monitoring",
     summary:
-      "Saathi reads the measurements a budget smartwatch already takes and turns them into a quiet baseline. Nothing to open, pair or configure on the senior's phone. Anomalies are compared against that individual baseline, not a population average, before anything is escalated.",
+      "CareCall reads the measurements a budget smartwatch already takes and turns them into a quiet baseline. Nothing to open, pair or configure on the senior's phone. Anomalies are compared against that individual baseline, not a population average, before anything is escalated.",
     price: 0,
     unit: "Free for every family",
     languages: ["Language independent"],
@@ -125,7 +125,7 @@ const STARTER_CATALOG = [
     tagline: "One care plan, one page, every guardian who shares it.",
     category: "Platform",
     summary:
-      "The guardian side of Saathi. Enrol a parent in minutes, upload the prescription, and keep the medical record, emergency hierarchy and care history together. Several family members can hold access without forwarding screenshots to each other.",
+      "The guardian side of CareCall. Enrol a parent in minutes, upload the prescription, and keep the medical record, emergency hierarchy and care history together. Several family members can hold access without forwarding screenshots to each other.",
     price: 0,
     unit: "Free for every family",
     languages: ["English", "Hindi"],
@@ -191,6 +191,8 @@ export const seedCatalog = mutation({
       // Normalise a previously seeded catalog: every care program is free, and
       // the old commercial console listing is retired.
       let updated = 0;
+      const brand = (value: string) =>
+        value.replace(/Saathi|Carecall/g, "CareCall");
       for (const plan of existing) {
         if (plan.slug === "operator-console") {
           const comments = await ctx.db
@@ -202,8 +204,23 @@ export const seedCatalog = mutation({
           updated += 1;
           continue;
         }
-        if (plan.price !== 0 || plan.unit !== FREE_UNIT) {
+        const brandFix = [
+          plan.name,
+          plan.tagline,
+          plan.summary,
+          ...plan.features,
+          ...plan.specs.flatMap((spec) => [spec.label, spec.value]),
+        ].some((value) => /Saathi|Carecall/.test(value));
+        if (plan.price !== 0 || plan.unit !== FREE_UNIT || brandFix) {
           await ctx.db.patch(plan._id, {
+            name: brand(plan.name),
+            tagline: brand(plan.tagline),
+            summary: brand(plan.summary),
+            features: plan.features.map(brand),
+            specs: plan.specs.map((spec) => ({
+              label: brand(spec.label),
+              value: brand(spec.value),
+            })),
             price: 0,
             unit: FREE_UNIT,
             updatedAt: Date.now(),
@@ -291,8 +308,8 @@ export const upsertPlan = mutation({
       slug = `${slug}-${suffix}`;
     }
 
-    // Every program is free. Pricing is not a configurable field in Saathi, so
-    // these values are fixed here rather than trusted from the client.
+    // Every program is free. Pricing is not a configurable field in CareCall,
+    // so these values are fixed here rather than trusted from the client.
     const payload = {
       name: args.name.trim(),
       tagline: args.tagline.trim(),

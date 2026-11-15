@@ -402,7 +402,7 @@ export default function Onboarding() {
           <Wordmark />
           <div className="flex items-center gap-6">
             <span className="hidden font-mono text-[10px] tracking-[0.1em] text-muted-foreground uppercase sm:inline">
-              Saathi · free enrolment
+              CareCall · free enrolment
             </span>
             <Link
               to="/catalog"
@@ -445,8 +445,8 @@ export default function Onboarding() {
                       className={cn(
                         "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border text-[10px] tabular-nums",
                         done &&
-                          "border-foreground bg-foreground text-background",
-                        active && "border-foreground text-foreground",
+                          "border-primary bg-primary text-primary-foreground",
+                        active && "border-primary text-foreground",
                         !done && !active && "border-border text-muted-foreground",
                       )}
                     >
@@ -521,7 +521,7 @@ export default function Onboarding() {
                           className={cn(
                             "h-9 flex-1 rounded-full border px-3 text-xs capitalize transition-colors",
                             gender === option
-                              ? "border-foreground bg-foreground text-background"
+                              ? "border-primary bg-primary text-primary-foreground"
                               : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground",
                           )}
                         >

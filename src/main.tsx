@@ -163,7 +163,7 @@ createRoot(document.getElementById("root")!).render(
             </Routes>
           </Suspense>
         </BrowserRouter>
-        <Toaster />
+        <Toaster theme="dark" />
       </ConvexAuthProvider>
     </RootErrorBoundary>
   </StrictMode>,

@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Saathi">
-  <rect width="64" height="64" rx="14" fill="#121417"/>
-  <g fill="none" stroke="#9AE6C8" stroke-width="3.5" stroke-linecap="round">
-    <circle cx="24" cy="32" r="3.5" fill="#9AE6C8" stroke="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="CareCall">
+  <rect width="64" height="64" rx="14" fill="#140F13"/>
+  <g fill="none" stroke="#F06AA6" stroke-width="3.5" stroke-linecap="round">
+    <circle cx="24" cy="32" r="3.5" fill="#86EFAC" stroke="none"/>
     <path d="M32.5 23.5a12 12 0 0 1 0 17"/>
     <path d="M39 18a20 20 0 0 1 0 28"/>
   </g>

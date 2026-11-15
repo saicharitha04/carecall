@@ -35,7 +35,7 @@ export default function NotFound() {
       </main>
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-          <p className="text-[11px] text-muted-foreground">Saathi</p>
+          <p className="text-[11px] text-muted-foreground">CareCall</p>
           <p className="font-mono text-[10px] text-muted-foreground">
             elder care infrastructure
           </p>

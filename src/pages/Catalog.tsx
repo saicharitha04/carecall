@@ -58,7 +58,7 @@ export default function Catalog() {
                 at no cost at all.
               </h1>
               <p className="mt-5 max-w-xl text-sm leading-7 text-muted-foreground">
-                Browse the programs Saathi offers every family. Each one is
+                Browse the programs CareCall offers every family. Each one is
                 included in full — there is no paid tier, no upgrade prompt, and
                 nothing withheld from the free version.
               </p>
@@ -95,7 +95,7 @@ export default function Catalog() {
                   className={cn(
                     "rounded-full border px-3 py-1 text-[11px] transition-colors",
                     category === item
-                      ? "border-[var(--chart-1)] bg-[var(--chart-1)] text-white"
+                      ? "border-primary bg-primary text-primary-foreground"
                       : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground",
                   )}
                 >

@@ -1,11 +1,11 @@
 {
-  "name": "Saathi",
-  "short_name": "Saathi",
-  "description": "A free community health service for elders: regional AI voice calls, passive smartwatch vitals, and a three-stage emergency safety net.",
+  "name": "CareCall",
+  "short_name": "CareCall",
+  "description": "A free elder-care service: regional AI voice calls, passive smartwatch vitals, and a three-stage emergency safety net.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F7FAFA",
-  "theme_color": "#0F4A47",
+  "background_color": "#140F13",
+  "theme_color": "#140F13",
   "icons": [
     {
       "src": "/logo.svg",

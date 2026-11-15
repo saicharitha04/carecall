@@ -123,7 +123,7 @@ export default function Dashboard() {
 
       {!senior ? (
         <main className="mx-auto max-w-3xl px-6 py-24">
-          <p className="label-eyebrow">Saathi workspace</p>
+          <p className="label-eyebrow">CareCall workspace</p>
           <div className="mt-4">
             <FreeBadge label="100% Free Forever for Every Family" />
           </div>
@@ -299,7 +299,7 @@ function SeniorSummary({
                     className={cn(
                       "rounded-full border px-3 py-1 text-[11px] transition-colors",
                       item._id === senior._id
-                        ? "border-foreground bg-foreground text-background"
+                        ? "border-primary bg-primary text-primary-foreground"
                         : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground",
                     )}
                   >
@@ -509,7 +509,7 @@ function SeniorSummary({
         <aside className="min-w-0 border-t border-border pt-10 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10">
           <div className="border border-border p-6">
             <div className="flex items-center gap-2 text-muted-foreground">
-              <Phone className="size-3.5" />
+              <Phone className="size-3.5 text-primary" />
               <p className="label-eyebrow">Next AI call</p>
             </div>
             <p className="mt-4 font-display text-4xl leading-none tracking-tight tabular-nums">
@@ -662,7 +662,7 @@ function SeniorSummary({
             you, Stage 3 neighbourhood and ambulance routing.
           </p>
           <p className="mt-4 border-t border-border pt-4 text-[11px] leading-5 text-muted-foreground">
-            Saathi is free for every family — no fee, no card, no subscription,
+            CareCall is free for every family — no fee, no card, no subscription,
             and no paid tier for better care.
           </p>
         </div>

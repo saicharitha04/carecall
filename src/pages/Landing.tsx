@@ -128,12 +128,12 @@ export default function Landing() {
                 <h1 className="mt-7 font-display text-[clamp(2.8rem,6vw,5rem)] leading-[0.98] tracking-[-0.02em]">
                   Care that reaches them,
                   <br />
-                  <span className="text-muted-foreground italic">
+                  <span className="text-primary italic">
                     without a single tap.
                   </span>
                 </h1>
                 <p className="mt-7 max-w-lg text-sm leading-7 text-muted-foreground">
-                  Saathi is a free community health service for elders and the
+                  CareCall is a free community health service for elders and the
                   families who look after them from a distance. A phone call in
                   their mother tongue for every medicine, quiet watch vitals in
                   the background, and a safety net that never stops at a
@@ -256,7 +256,7 @@ export default function Landing() {
               {...fade}
               className="max-w-md font-display text-[clamp(1.9rem,3.4vw,2.7rem)] leading-[1.12] tracking-[-0.01em]"
             >
-              Saathi means companion. The care should feel like one.
+              Care should feel like companionship, not surveillance.
             </motion.p>
             <motion.div
               {...fade}
@@ -318,7 +318,7 @@ export default function Landing() {
             </div>
 
             <p className="mt-10 max-w-2xl text-xs leading-6 text-muted-foreground">
-              Saathi is run as a public-good initiative for daily use. There are
+              CareCall is run as a public-good initiative for daily use. There are
               no advertisements, no data sold to insurers, and no paid tier that
               unlocks better care. Every family gets the same service.
             </p>
@@ -497,7 +497,7 @@ export default function Landing() {
               </h2>
               <p className="mt-5 max-w-md text-sm leading-7 text-muted-foreground">
                 Noise, Fire-Boltt and Amazfit already measure more than anyone
-                looks at. Saathi reads those measurements through Google Health
+                looks at. CareCall reads those measurements through Google Health
                 Connect or Apple HealthKit — no new device to buy, no settings
                 for your parent to touch.
               </p>
@@ -580,7 +580,7 @@ export default function Landing() {
               </h2>
               <p className="mt-5 max-w-lg text-sm leading-7 text-muted-foreground">
                 No subscription, no payment page, no hidden costs. Add one
-                parent, one prescription, one phone call — and let Saathi keep
+                parent, one prescription, one phone call — and let CareCall keep
                 watch alongside you.
               </p>
               <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3">
