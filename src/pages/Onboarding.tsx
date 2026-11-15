@@ -38,7 +38,7 @@ import {
   Upload,
   X,
 } from "lucide-react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 
@@ -163,12 +163,8 @@ export default function Onboarding() {
     address: "",
   });
 
-  useEffect(() => {
-    if (!user?.name) return;
-    setEmergency((current) =>
-      current.primaryName ? current : { ...current, primaryName: user.name! },
-    );
-  }, [user?.name]);
+  // Prefill from the signed-in guardian, but never overwrite what they typed.
+  const guardianName = emergency.primaryName || user?.name || "";
 
   const safetyFlags = deriveSafetyFlags(conditions, medications);
   const stepCopy = STEP_COPY[step];
@@ -330,7 +326,7 @@ export default function Onboarding() {
       }
     }
     if (step === 4) {
-      if (!emergency.primaryName.trim())
+      if (!guardianName.trim())
         return "Add the primary guardian's name.";
       if (emergency.primaryPhone.replace(/\D/g, "").length < 10)
         return "Add the primary guardian's phone number.";
@@ -384,7 +380,7 @@ export default function Onboarding() {
         documents,
         medications,
         safetyFlags,
-        emergency,
+        emergency: { ...emergency, primaryName: guardianName },
       });
       toast.success(`Care plan for ${fullName.split(" ")[0]} is active`);
       navigate("/dashboard");
@@ -957,7 +953,7 @@ export default function Onboarding() {
                     <div className="mt-4 grid gap-x-8 gap-y-6 sm:grid-cols-3">
                       <Field label="Name">
                         <Input
-                          value={emergency.primaryName}
+                          value={guardianName}
                           onChange={(event) =>
                             updateEmergency({ primaryName: event.target.value })
                           }
@@ -1158,7 +1154,7 @@ export default function Onboarding() {
                     <ReviewRow
                       label="Guardian"
                       onEdit={() => setStep(4)}
-                      value={`${emergency.primaryName || "—"} (${emergency.primaryRelation || "—"}) · ${formatPhone(emergency.primaryPhone) || "—"}`}
+                      value={`${guardianName || "—"} (${emergency.primaryRelation || "—"}) · ${formatPhone(emergency.primaryPhone) || "—"}`}
                     />
                     <ReviewRow
                       label="Local contact"
