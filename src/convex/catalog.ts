@@ -390,6 +390,20 @@ export const addComment = mutation({
     if (name.length > 60) throw new Error("Keep the name under 60 characters.");
     if (body.length < 3) throw new Error("Write a little more before posting.");
     if (body.length > 800) throw new Error("Keep the comment under 800 characters.");
+
+    // Cheap per-user throttle: at most five comments a minute. Protects the
+    // discussion from spam without adding external infrastructure.
+    const now = Date.now();
+    const recent = await ctx.db
+      .query("planComments")
+      .withIndex("by_author", (q) => q.eq("authorId", userId))
+      .order("desc")
+      .take(5);
+    if (recent.filter((comment) => now - comment.createdAt < 60_000).length >= 5)
+      throw new Error(
+        "You are posting too quickly. Wait a minute before trying again.",
+      );
+
     const plan = await ctx.db.get(args.planId);
     if (!plan) throw new Error("That program no longer exists.");
     return await ctx.db.insert("planComments", {
@@ -397,7 +411,7 @@ export const addComment = mutation({
       authorId: userId,
       authorName: name,
       body,
-      createdAt: Date.now(),
+      createdAt: now,
     });
   },
 });

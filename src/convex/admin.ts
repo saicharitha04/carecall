@@ -62,6 +62,15 @@ export const deleteEnrollment = mutation({
   args: { id: v.id("seniors") },
   handler: async (ctx, args) => {
     await requireOperator(ctx);
+
+    // Remove dependent records first so no orphaned medical or incident data is
+    // left behind after a family asks to be forgotten.
+    const incidents = await ctx.db
+      .query("escalations")
+      .withIndex("by_senior", (q) => q.eq("seniorId", args.id))
+      .collect();
+    for (const incident of incidents) await ctx.db.delete(incident._id);
+
     await ctx.db.delete(args.id);
   },
 });

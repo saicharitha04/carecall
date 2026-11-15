@@ -1,3 +1,4 @@
+import { EscalationPanel } from "@/components/EscalationPanel";
 import { FreeBadge } from "@/components/FreeBadge";
 import { Wordmark } from "@/components/Wordmark";
 import { Button } from "@/components/ui/button";
@@ -231,7 +232,15 @@ function SeniorSummary({
     (dose) => doseStatusOf(dose.time) === "taken",
   ).length;
 
-  const firstName = senior.fullName.split(" ")[0];
+  // The spoken script is generated server-side from the approved prescription,
+  // so the dashboard preview and the actual agent cannot drift apart.
+  const callScript = useQuery(
+    api.voice.getMedicationScript,
+    nextDose
+      ? { seniorId: senior._id, medicationKey: nextDose.med.key }
+      : "skip",
+  );
+
   const guardianFirstName = guardianName?.split(" ")[0];
 
   return (
@@ -528,12 +537,22 @@ function SeniorSummary({
                 Two-way conversation
               </span>
             </div>
-            {nextDose && (
-              <p className="mt-5 border-t border-border pt-4 text-xs leading-5 text-muted-foreground">
-                “{firstName}, the {nextDose.med.appearance.toLowerCase()} is in{" "}
-                {nextDose.med.location.toLowerCase()}. Take it{" "}
-                {nextDose.med.food.toLowerCase()}.”
-              </p>
+            {callScript && (
+              <div className="mt-5 space-y-2 border-t border-border pt-4">
+                {callScript.lines.map((line) => (
+                  <p key={line} className="text-xs leading-5">
+                    {line}
+                  </p>
+                ))}
+                <p className="text-[11px] leading-5 text-muted-foreground">
+                  {callScript.confirmationPrompt}
+                </p>
+                <p className="flex items-center gap-1.5 pt-1 text-[10px] text-muted-foreground">
+                  <Phone className="size-3" />
+                  Spoken in {callScript.spokenLanguage}
+                  {callScript.fallback ? " · English fallback" : ""}
+                </p>
+              </div>
             )}
             <p className="mt-3 text-[11px] leading-5 text-muted-foreground/80">
               Your parent answers on their phone. Nothing to install, open or
@@ -576,6 +595,8 @@ function SeniorSummary({
               {senior.emergency.address || "No home address on file."}
             </p>
           </div>
+
+          <EscalationPanel seniorId={senior._id} />
         </aside>
       </div>
 

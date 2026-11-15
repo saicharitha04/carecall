@@ -63,7 +63,58 @@ const schema = defineSchema(
       authorName: v.string(),
       body: v.string(),
       createdAt: v.number(),
-    }).index("by_plan", ["planId"]),
+    })
+      .index("by_plan", ["planId"])
+      .index("by_author", ["authorId"]),
+
+    // Every escalation is an append-only incident with the exact contacts used
+    // at the time. The dashboard reads the latest few; the scheduler advances
+    // anything still open after its grace window.
+    escalations: defineTable({
+      seniorId: v.id("seniors"),
+      guardianId: v.id("users"),
+      kind: v.union(v.literal("missed_dose"), v.literal("vitals")),
+      stage: v.number(),
+      status: v.union(
+        v.literal("open"),
+        v.literal("acknowledged"),
+        v.literal("resolved"),
+      ),
+      trigger: v.string(),
+      targets: v.object({
+        seniorName: v.string(),
+        seniorPhone: v.string(),
+        guardianName: v.string(),
+        guardianPhone: v.string(),
+        localName: v.string(),
+        localPhone: v.string(),
+        hospital: v.string(),
+        ambulancePhone: v.string(),
+        address: v.string(),
+      }),
+      deliveries: v.array(
+        v.object({
+          stage: v.number(),
+          channel: v.string(),
+          target: v.string(),
+          status: v.union(
+            v.literal("sent"),
+            v.literal("simulated"),
+            v.literal("failed"),
+          ),
+          provider: v.string(),
+          reference: v.optional(v.string()),
+          error: v.optional(v.string()),
+          summary: v.string(),
+          at: v.number(),
+        }),
+      ),
+      nextStageAt: v.optional(v.number()),
+      createdAt: v.number(),
+      updatedAt: v.number(),
+    })
+      .index("by_senior", ["seniorId"])
+      .index("by_status", ["status"]),
 
     // A senior enrolled by a signed-in guardian. One guardian can enrol more
     // than one parent; every senior is scoped to the guardian who owns it.

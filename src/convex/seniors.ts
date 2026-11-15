@@ -1,6 +1,7 @@
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { validateSeniorInput } from "./lib/validation";
 
 const medicationValidator = v.object({
   key: v.string(),
@@ -106,24 +107,31 @@ export const create = mutation({
     const userId = await getAuthUserId(ctx);
     if (userId === null) throw new Error("Sign in to enrol a senior.");
 
+    // Normalisation and bounds checks happen server-side, not just in the form.
+    const senior = validateSeniorInput({
+      ...args,
+      medicalNotes: args.medicalNotes,
+      documents: args.documents,
+    });
+
     const now = Date.now();
     const seed = Math.abs(
-      args.phone.split("").reduce((acc, char) => acc * 31 + char.charCodeAt(0), 7),
+      senior.phone.split("").reduce((acc, char) => acc * 31 + char.charCodeAt(0), 7),
     );
 
     return await ctx.db.insert("seniors", {
       guardianId: userId,
-      fullName: args.fullName.trim(),
-      age: args.age,
-      gender: args.gender,
-      phone: args.phone.trim(),
-      language: args.language,
-      conditions: args.conditions,
-      medicalNotes: args.medicalNotes?.trim() || undefined,
-      documents: args.documents,
-      medications: args.medications,
-      safetyFlags: args.safetyFlags,
-      emergency: args.emergency,
+      fullName: senior.fullName,
+      age: senior.age,
+      gender: senior.gender,
+      phone: senior.phone,
+      language: senior.language,
+      conditions: senior.conditions,
+      medicalNotes: senior.medicalNotes,
+      documents: senior.documents,
+      medications: senior.medications,
+      safetyFlags: senior.safetyFlags,
+      emergency: senior.emergency,
       deviceBrand: "Fire-Boltt",
       deviceConnected: true,
       lastSyncedAt: now,

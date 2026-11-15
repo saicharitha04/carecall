@@ -26,7 +26,7 @@ import {
   type Medication,
 } from "@/lib/care";
 import { cn } from "@/lib/utils";
-import { useMutation } from "convex/react";
+import { useAction, useMutation } from "convex/react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -127,6 +127,7 @@ export default function Onboarding() {
   const { user } = useAuth();
   const createSenior = useMutation(api.seniors.create);
   const generateUploadUrl = useMutation(api.seniors.generateUploadUrl);
+  const analyzePrescription = useAction(api.prescriptions.analyzePrescription);
 
   const [step, setStep] = useState(1);
   const [error, setError] = useState<string | null>(null);
@@ -149,6 +150,7 @@ export default function Onboarding() {
   const [rxState, setRxState] = useState<"idle" | "uploading" | "extracting">(
     "idle",
   );
+  const [visionNote, setVisionNote] = useState<string | null>(null);
   const rxInputRef = useRef<HTMLInputElement>(null);
 
   const [emergency, setEmergency] = useState<Emergency>({
@@ -230,6 +232,7 @@ export default function Onboarding() {
     if (!file) return;
     setError(null);
     setRxSource(file.name);
+    setVisionNote(null);
     setRxState("uploading");
     try {
       // Keep the original in storage so a human can audit the extraction later.
@@ -245,10 +248,34 @@ export default function Onboarding() {
         },
       ]);
       setRxState("extracting");
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      const parsed = profilePrescription(file.name);
-      setMedications(parsed);
-      toast.success("Prescription read — review each medicine below.");
+      const template = profilePrescription(file.name);
+
+      // Vision parsing is best-effort. Any provider or schema failure degrades
+      // to an editable template so the guardian is never blocked.
+      try {
+        const result = await analyzePrescription({ storageId });
+        if (result.status === "ok" && result.medications.length > 0) {
+          setMedications(result.medications);
+          setVisionNote(
+            result.warnings.length ? result.warnings.join(" ") : null,
+          );
+          toast.success("Prescription parsed — review every line below.");
+        } else {
+          setMedications(template);
+          setVisionNote(
+            result.status === "fallback" ? result.reason : null,
+          );
+          toast.info("Loaded an editable template for this prescription.");
+        }
+      } catch (visionError) {
+        setMedications(template);
+        setVisionNote(
+          visionError instanceof Error
+            ? visionError.message
+            : "Vision AI is unavailable right now.",
+        );
+        toast.info("Vision AI unavailable — loaded an editable template.");
+      }
     } catch (parseError) {
       setError(
         parseError instanceof Error
@@ -265,6 +292,9 @@ export default function Onboarding() {
     setRxSource("sample-prescription.jpg");
     setRxState("extracting");
     setError(null);
+    setVisionNote(
+      "This is a sample prescription, not a vision reading. Edit the fields before continuing.",
+    );
     setTimeout(() => {
       setMedications(profilePrescription("sample-prescription.jpg"));
       setRxState("idle");
@@ -774,6 +804,12 @@ export default function Onboarding() {
                       </p>
                     </div>
                   </div>
+
+                  {visionNote && (
+                    <p className="text-[11px] leading-5 text-muted-foreground">
+                      {visionNote}
+                    </p>
+                  )}
 
                   {medications.length > 0 && (
                     <div>

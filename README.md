@@ -1,3 +1,16 @@
+# CareCall
+
+CareCall is a 100% free, zero-app elder-care platform. A guardian enrols a
+senior, a prescription image becomes a reviewed medication schedule, an AI voice
+companion calls in the senior's mother tongue, smartwatch vitals are tracked for
+long-distance monitoring, and a three-stage escalation ladder reaches a guardian,
+a neighbour, and an ambulance desk when something is missed.
+
+- Architecture, safety model, environment variables and limitations:
+  [ARCHITECTURE.md](./ARCHITECTURE.md)
+- Domain checks: `bun run verify`
+- Typecheck: `bun tsc -b --noEmit`
+
 ## Overview
 
 This project uses the following tech stack:
