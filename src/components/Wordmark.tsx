@@ -4,26 +4,30 @@ import { cn } from "@/lib/utils";
 export function Wordmark({
   to = "/",
   className,
+  tag = "care ops",
 }: {
   to?: string;
   className?: string;
+  tag?: string | null;
 }) {
   return (
     <Link
       to={to}
       className={cn("group inline-flex items-baseline gap-2", className)}
-      aria-label="Sahyog Care home"
+      aria-label="Carecall home"
     >
       <span
-        className="mb-1 size-1.5 shrink-0 rounded-full bg-[var(--chart-1)]"
+        className="size-1.5 shrink-0 self-center rounded-full bg-[var(--chart-1)]"
         aria-hidden
       />
-      <span className="font-display text-xl leading-none tracking-tight text-foreground">
-        Sahyog
+      <span className="text-[17px] leading-none font-medium tracking-[-0.02em] text-foreground">
+        carecall
       </span>
-      <span className="text-[10px] leading-none tracking-[0.24em] text-muted-foreground uppercase">
-        Care
-      </span>
+      {tag ? (
+        <span className="font-mono text-[9px] leading-none tracking-[0.18em] text-muted-foreground uppercase">
+          {tag}
+        </span>
+      ) : null}
     </Link>
   );
 }

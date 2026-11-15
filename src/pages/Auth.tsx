@@ -110,7 +110,7 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
 
       <main className="mx-auto grid w-full max-w-6xl flex-1 gap-12 px-6 py-14 md:grid-cols-[1fr_400px] md:gap-20 md:py-20">
         <div className="hidden md:block">
-          <p className="label-eyebrow">Guardian access</p>
+          <p className="label-eyebrow">Carecall workspace</p>
           <h1 className="mt-5 max-w-md font-display text-[clamp(2.4rem,4.4vw,3.4rem)] leading-[1.04] tracking-tight">
             The care plan is yours to hold.
           </h1>
@@ -125,6 +125,13 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
               Health data stays scoped to your account. Your parent never needs
               to sign in, install or remember anything.
             </p>
+            <Link
+              to="/catalog"
+              className="mt-6 inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.1em] text-muted-foreground uppercase transition-colors hover:text-foreground"
+            >
+              Browse care programs
+              <ArrowRight className="size-3" />
+            </Link>
           </div>
         </div>
 
@@ -277,7 +284,7 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
           <p className="text-[11px] text-muted-foreground">
-            Sahyog Care · guardian workspace
+            Carecall · guardian workspace
           </p>
           <p className="text-[11px] text-muted-foreground">
             Secured by freebuff.com

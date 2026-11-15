@@ -90,10 +90,19 @@ export default function Dashboard() {
       <header className="border-b border-border">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
           <Wordmark to="/dashboard" />
-          <div className="flex items-center gap-6">
-            <span className="hidden text-xs tracking-wide text-muted-foreground sm:inline">
-              Guardian dashboard
-            </span>
+          <div className="flex items-center gap-5 sm:gap-6">
+            <Link
+              to="/catalog"
+              className="hidden text-xs text-muted-foreground transition-colors hover:text-foreground sm:inline"
+            >
+              Programs
+            </Link>
+            <Link
+              to="/admin"
+              className="hidden text-xs text-muted-foreground transition-colors hover:text-foreground sm:inline"
+            >
+              Operator
+            </Link>
             <div className="hidden h-4 w-px bg-border sm:block" />
             <span className="hidden max-w-[180px] truncate text-xs text-muted-foreground md:inline">
               {user?.name || user?.email}
@@ -112,7 +121,7 @@ export default function Dashboard() {
 
       {!senior ? (
         <main className="mx-auto max-w-3xl px-6 py-24">
-          <p className="label-eyebrow">Guardian dashboard</p>
+          <p className="label-eyebrow">Carecall workspace</p>
           <h1 className="mt-4 font-display text-4xl leading-tight tracking-tight sm:text-5xl">
             Nobody is enrolled yet.
           </h1>

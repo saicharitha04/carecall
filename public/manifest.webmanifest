@@ -1,11 +1,11 @@
 {
-  "name": "freebuff.com application",
-  "short_name": "freebuff.com",
-  "description": "freebuff.com application",
+  "name": "Carecall",
+  "short_name": "Carecall",
+  "description": "Elder-care infrastructure: regional AI voice calls, watch vitals, and staged emergency escalation.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#121417",
+  "theme_color": "#121417",
   "icons": [
     {
       "src": "/logo.svg",

@@ -56,6 +56,25 @@ export function formatPhone(value: string) {
   return digits;
 }
 
+export function formatPrice(price: number) {
+  if (price === 0) return "Custom";
+  return `₹${price.toLocaleString("en-IN")}`;
+}
+
+export function relativeTime(timestamp: number) {
+  const minutes = Math.max(0, Math.round((Date.now() - timestamp) / 60000));
+  if (minutes < 1) return "just now";
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.round(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.round(hours / 24);
+  if (days < 30) return `${days}d ago`;
+  return new Date(timestamp).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+  });
+}
+
 export function initialsOf(name: string) {
   return name
     .split(" ")

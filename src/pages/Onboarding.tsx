@@ -400,9 +400,15 @@ export default function Onboarding() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
           <Wordmark />
           <div className="flex items-center gap-6">
-            <span className="hidden text-xs tracking-wide text-muted-foreground sm:inline">
-              Guardian onboarding
+            <span className="hidden font-mono text-[10px] tracking-[0.1em] text-muted-foreground uppercase sm:inline">
+              Carecall · enrolment
             </span>
+            <Link
+              to="/catalog"
+              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Programs
+            </Link>
             <Link
               to="/dashboard"
               className="text-xs text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"

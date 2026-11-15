@@ -32,6 +32,39 @@ const schema = defineSchema(
       role: v.optional(roleValidator), // role of the user. do not remove
     }).index("email", ["email"]), // index for the email. do not remove or modify
 
+    // Care programs published by the operator and browsed by customers.
+    plans: defineTable({
+      slug: v.string(),
+      name: v.string(),
+      tagline: v.string(),
+      category: v.string(),
+      summary: v.string(),
+      price: v.number(),
+      unit: v.string(),
+      languages: v.array(v.string()),
+      features: v.array(v.string()),
+      specs: v.array(v.object({ label: v.string(), value: v.string() })),
+      status: v.union(
+        v.literal("published"),
+        v.literal("draft"),
+        v.literal("archived"),
+      ),
+      order: v.number(),
+      createdAt: v.number(),
+      updatedAt: v.number(),
+    })
+      .index("by_slug", ["slug"])
+      .index("by_status", ["status"]),
+
+    // Questions and notes left by customers on a program detail page.
+    planComments: defineTable({
+      planId: v.id("plans"),
+      authorId: v.id("users"),
+      authorName: v.string(),
+      body: v.string(),
+      createdAt: v.number(),
+    }).index("by_plan", ["planId"]),
+
     // A senior enrolled by a signed-in guardian. One guardian can enrol more
     // than one parent; every senior is scoped to the guardian who owns it.
     seniors: defineTable({
